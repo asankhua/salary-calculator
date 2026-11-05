@@ -1,3 +1,5 @@
+https://github.com/user-attachments/assets/f69a930c-2ab8-4803-be97-cd91e5f48344
+
 # Takehome · Salary structure and in-hand pay
 
 A browser-only calculator for an Indian offer letter. Takehome turns an Annual Total Base Pay into a salary structure and shows monthly in-hand under the new and the old tax regimes for FY 2026-27.
