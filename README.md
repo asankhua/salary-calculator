@@ -4,7 +4,7 @@ Takehome turns an Annual Total Base Pay into a full Indian salary structure and 
 
 **Live page:** https://asankhua.github.io/salary-calculator/
 
-Architecture and calculation flow: [CASE-STUDY.md](CASE-STUDY.md)
+Product case study: [CASE-STUDY.md](CASE-STUDY.md)
 
 ## Features
 
