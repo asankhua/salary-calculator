@@ -394,14 +394,17 @@ The page does that without an account and without asking for deductions the lett
 
 ## Appendix
 
+Technical design: [ARCHITECTURE.md](ARCHITECTURE.md).
+
 ### A. Files
 
 ```
 .
-├── index.html       # Hero, form, results, assumptions
-├── styles.css       # Layout, responsive rules, print
-├── app.js           # compute, taxFor, incomeTax, gratuity, render
-├── CASE-STUDY.md    # This note
+├── index.html        # Hero, form, results, assumptions
+├── styles.css        # Layout, responsive rules, print
+├── app.js            # compute, taxFor, incomeTax, gratuity, render
+├── ARCHITECTURE.md   # System design
+├── CASE-STUDY.md     # This note
 └── README.md
 ```
 

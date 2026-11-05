@@ -5,6 +5,7 @@ Takehome turns an Annual Total Base Pay into a full Indian salary structure and 
 **Live page:** https://asankhua.github.io/salary-calculator/
 
 Product case study: [CASE-STUDY.md](CASE-STUDY.md)
+Architecture: [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Features
 
@@ -43,6 +44,8 @@ Then visit http://localhost:8000.
 | `index.html` | Page layout, form, results and assumptions |
 | `styles.css` | Styles, responsive layout and print styles |
 | `app.js` | Salary structure, tax computation and gratuity logic |
+| `ARCHITECTURE.md` | System design |
+| `CASE-STUDY.md` | Product case study |
 
 ## Assumptions and limits
 
