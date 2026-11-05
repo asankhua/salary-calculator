@@ -4,6 +4,8 @@ Takehome turns an Annual Total Base Pay into a full Indian salary structure and 
 
 **Live page:** https://asankhua.github.io/salary-calculator/
 
+Architecture and calculation flow: [CASE-STUDY.md](CASE-STUDY.md)
+
 ## Features
 
 - Salary structure: Basic (40% or 50% of Total Base Pay), HRA (Metro 50% or Non-metro 40% of Basic), LTA (16.66% of Basic), Employer PF (12% of Basic), internet allowance (₹1,000 a month) and special allowance as the balance.
