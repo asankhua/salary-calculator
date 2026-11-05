@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Takehome · Salary structure and in-hand pay</title>
+  <meta name="description" content="Takehome builds an Indian salary structure from Annual Total Base Pay, compares the new and old tax regimes for FY 2026-27, and estimates in-hand salary and gratuity." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=63" />
+</head>
+<body>
+  <div class="accent-line"></div>
+
+  <section class="hero">
+    <div class="hero-glow" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="live-dot"></span>FY 2026-27 · Income-tax Act, 2025</div>
+        <h1>Know your <span class="grad-text">in-hand salary</span> before you sign</h1>
+        <p class="hero-sub">Turn Annual Total Base Pay into a full salary structure. Compare the new and old tax regimes side by side, and see in-hand pay, CTC and gratuity.</p>
+      </div>
+
+      <div class="hero-side">
+        <ul class="hero-points">
+          <li><span class="tick">✓</span>New and old regimes compared</li>
+          <li><span class="tick">✓</span>Slab tax with 4% cess</li>
+          <li><span class="tick">✓</span>Employee PF in the old regime</li>
+          <li><span class="tick">✓</span>Gratuity estimate</li>
+        </ul>
+        <div class="privacy-note"><span class="i-icon solid">i</span>Calculated in your browser. No employee data is stored or retrieved.</div>
+      </div>
+    </div>
+  </section>
+
+  <main class="container layout">
+    <!-- Inputs -->
+    <aside class="panel" aria-label="Salary inputs">
+      <form id="salaryForm" novalidate>
+        <div class="panel-head">
+          <span class="brand-icon lg">₹</span>
+          <div>
+            <h2>Your details</h2>
+            <p class="tiny muted">Results update as you type.</p>
+          </div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">Salary</div>
+          <div class="field">
+            <label for="annualTbp">Annual Total Base Pay
+              <span class="tip" tabindex="0" data-tip="Your annual Total Base Pay (TBP), excluding Variable pay and benefits. The lowest amount is ₹1,00,000.">i</span>
+            </label>
+            <div class="input-wrap lg">
+              <span class="prefix">₹</span>
+              <input id="annualTbp" inputmode="numeric" autocomplete="off" placeholder="Enter amount" aria-describedby="tbpHint tbpError" />
+            </div>
+            <p class="hint" id="tbpHint">From ₹1,00,000 a year</p>
+            <p class="error-text" id="tbpError" role="alert"></p>
+          </div>
+          <div class="field">
+            <label for="annualBasic">Annual basic <span class="tag">CALCULATED</span></label>
+            <div class="input-wrap readonly">
+              <span class="prefix">₹</span>
+              <input id="annualBasic" readonly tabindex="-1" />
+            </div>
+            <p class="hint" id="basicHint">40% of Annual Total Base Pay</p>
+          </div>
+          <div class="field">
+            <label for="variablePay">Variable pay, on top of Total Base Pay
+              <span class="tip" tabindex="0" data-tip="Paid on top of Total Base Pay and spread across 12 months. A percentage is of Total Base Pay. Slab tax, including cess, is on fixed pay plus this amount. It does not change Basic, PF or gratuity.">i</span>
+            </label>
+            <div class="segmented full" role="group" aria-label="Variable pay type">
+              <button type="button" class="choice active" data-variable="percent">Percentage</button>
+              <button type="button" class="choice" data-variable="amount">Amount</button>
+            </div>
+            <div class="input-wrap" id="variableWrap">
+              <span class="prefix" id="variablePrefix">%</span>
+              <input id="variablePay" inputmode="decimal" autocomplete="off" placeholder="0" aria-describedby="variableHint variableError" />
+            </div>
+            <p class="hint" id="variableHint">Percentage of Total Base Pay, paid on top of it. Leave blank for none.</p>
+            <p class="error-text" id="variableError" role="alert"></p>
+          </div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">Structure</div>
+          <div class="field">
+            <label>Basic salary
+              <span class="tip" tabindex="0" data-tip="Basic as a share of Total Base Pay. HRA, LTA, PF and NPS are all calculated from Basic.">i</span>
+            </label>
+            <div class="segmented full" role="group" aria-label="Basic salary">
+              <button type="button" class="choice active" data-basic="40">40%</button>
+              <button type="button" class="choice" data-basic="50">50%</button>
+            </div>
+          </div>
+          <div class="field">
+            <label>HRA of Basic
+              <span class="tip" tabindex="0" data-tip="Metro: Delhi, Mumbai, Kolkata, Chennai, Bengaluru, Hyderabad, Pune and Ahmedabad. Metro sets HRA at 50% of Basic. Any other city sets it at 40% of Basic. Rent is not claimed, so this changes the split between HRA and special allowance. It is not a tax exemption.">i</span>
+            </label>
+            <div class="segmented full" role="group" aria-label="HRA city">
+              <button type="button" class="choice active" data-metro="1">Metro</button>
+              <button type="button" class="choice" data-metro="0">Non-metro</button>
+            </div>
+            <p class="hint" id="hraHint">50% of Basic · Delhi, Mumbai, Kolkata, Chennai, Bengaluru, Hyderabad, Pune, Ahmedabad</p>
+          </div>
+          <div class="field">
+            <label>Corporate NPS
+              <span class="tip" tabindex="0" data-tip="Employer NPS contribution, taken from special allowance. Deductible up to 14% of Basic in the new regime and 10% in the old regime.">i</span>
+            </label>
+            <div class="segmented full" role="group" aria-label="Corporate NPS">
+              <button type="button" class="choice active" data-nps="0">None</button>
+              <button type="button" class="choice" data-nps="10">10%</button>
+              <button type="button" class="choice" data-nps="14">14%</button>
+            </div>
+            <p class="hint" id="npsHint">Of Basic, from special allowance</p>
+          </div>
+          <label class="check">
+            <input type="checkbox" id="pfIncluded" checked />
+            <span>Employer PF included in Total Base Pay</span>
+          </label>
+          <p class="hint" id="pfHint">12% of Basic is part of Total Base Pay.</p>
+        </div>
+
+        <div class="group">
+          <div class="group-title">Tax</div>
+          <div class="field">
+            <label>Tax slab selection
+              <span class="tip" tabindex="0" data-tip="Choose the tax slabs that set the headline figures. Both regimes are still compared in the results.">i</span>
+            </label>
+            <div class="segmented full" role="group" aria-label="Tax slab selection">
+              <button type="button" class="choice active" data-regime="new">New regime</button>
+              <button type="button" class="choice" data-regime="old">Old regime</button>
+            </div>
+            <p class="hint">New regime: lower slabs and a ₹75,000 standard deduction. Old regime: higher slabs, a ₹50,000 standard deduction, and Employee PF up to ₹1,50,000.</p>
+          </div>
+          <label class="check">
+            <input type="checkbox" id="ptToggle" checked />
+            <span>Professional tax of ₹200 a month <span class="muted">(when monthly cash pay is above ₹15,000)</span></span>
+          </label>
+          <p class="hint" id="ptHint"></p>
+        </div>
+
+        <p class="tiny muted">Illustrative values only. Do not enter personally identifiable information.</p>
+      </form>
+    </aside>
+
+    <!-- Results -->
+    <section class="results" aria-live="polite">
+      <div class="results-toolbar">
+        <div>
+          <h2>Results</h2>
+          <p class="tiny muted" id="resultMeta">Enter Annual Total Base Pay to see your salary structure.</p>
+        </div>
+        <div class="toolbar-actions">
+          <button type="button" class="btn btn-ghost" id="printBtn" disabled>Save PDF</button>
+          <button type="button" class="btn btn-outline" id="resetTableBtn">Reset</button>
+        </div>
+      </div>
+
+      <div class="card empty" id="emptyState">
+        <div class="empty-icon">₹</div>
+        <h3>Start with your Annual Total Base Pay</h3>
+        <p class="muted">Type an amount from ₹1,00,000. You can also type 22.5L or 1.2Cr. The structure, both tax regimes, in-hand pay and gratuity are worked out instantly.</p>
+      </div>
+
+      <div id="resultsBody" hidden>
+        <div class="kpis">
+          <div class="kpi primary">
+            <span class="kpi-label">In-hand per month</span>
+            <span class="kpi-value" id="kpiInhand">—</span>
+            <span class="kpi-sub" id="kpiInhandSub"></span>
+          </div>
+          <div class="kpi">
+            <span class="kpi-label">In-hand per year</span>
+            <span class="kpi-value" id="kpiInhandYear">—</span>
+            <span class="kpi-sub" id="kpiInhandYearSub"></span>
+          </div>
+          <div class="kpi">
+            <span class="kpi-label">Income tax per year</span>
+            <span class="kpi-value" id="kpiTax">—</span>
+            <span class="kpi-sub" id="kpiTaxSub"></span>
+          </div>
+          <div class="kpi">
+            <span class="kpi-label">Effective tax rate</span>
+            <span class="kpi-value" id="kpiRate">—</span>
+            <span class="kpi-sub" id="kpiRateSub"></span>
+          </div>
+        </div>
+        <div class="ctc-tile">
+          <div>
+            <span class="kpi-label">Total CTC</span>
+            <span class="kpi-sub" id="kpiCtcSub"></span>
+          </div>
+          <span class="kpi-value" id="kpiCtc">—</span>
+        </div>
+        <div class="ctc-tile invest-tile">
+          <div>
+            <span class="kpi-label">Retirement savings per year</span>
+            <span class="kpi-sub" id="kpiInvestSub"></span>
+          </div>
+          <span class="kpi-value" id="kpiInvest">—</span>
+        </div>
+
+        <p class="warn-banner" id="structureWarn" hidden></p>
+
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <div class="eyebrow">TAX REGIME</div>
+              <h3>New regime and old regime</h3>
+              <p class="tiny muted">Recommended from your in-hand pay. Choose a regime to see its figures above and in the breakdown below.</p>
+            </div>
+          </div>
+          <div class="compare" id="regimeCompare"></div>
+        </div>
+
+        <div class="card flush">
+          <div class="card-head padded">
+            <div>
+              <div class="eyebrow">INDIAN CITIZEN</div>
+              <h3>Salary structure</h3>
+              <p class="tiny muted" id="structureSub"></p>
+            </div>
+          </div>
+          <div class="comp-bar" id="compBar" aria-hidden="true"></div>
+          <div class="comp-legend" id="compLegend"></div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr><th>Pay component</th><th class="num">Monthly</th><th class="num">Annual</th></tr>
+              </thead>
+              <tbody id="structureBody"></tbody>
+              <tfoot id="structureFoot"></tfoot>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <div class="eyebrow">TAKE-HOME</div>
+              <h3>From Total Base Pay to in-hand</h3>
+              <p class="tiny muted" id="waterfallSub">Per year</p>
+            </div>
+          </div>
+          <div class="waterfall" id="waterfall"></div>
+        </div>
+
+        <div class="card flush">
+          <div class="card-head padded">
+            <div>
+              <div class="eyebrow">TAX COMPUTATION</div>
+              <h3>What applies in each regime</h3>
+              <p class="tiny muted">Per year. The old regime counts Employee PF, up to ₹1,50,000. Rent, other investments and loan interest are not included.</p>
+            </div>
+          </div>
+          <div class="table-scroll">
+            <table class="data-table tax-table">
+              <thead>
+                <tr><th>Item</th><th class="num" id="thNew">New regime</th><th class="num" id="thOld">Old regime</th></tr>
+              </thead>
+              <tbody id="taxBody"></tbody>
+            </table>
+          </div>
+          <div class="padded">
+            <h4 class="sub-title" id="slabTitle">Slab-wise tax</h4>
+            <div class="table-scroll">
+              <table class="data-table compact">
+                <thead><tr><th>Taxable income slab</th><th class="num">Rate</th><th class="num">Income in slab</th><th class="num">Tax</th></tr></thead>
+                <tbody id="slabBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="gratuityCard">
+        <div class="card-head">
+          <div>
+            <div class="eyebrow">GRATUITY ILLUSTRATION</div>
+            <h3>Gratuity calculator</h3>
+            <p class="tiny muted">Estimated from the monthly basic salary in the structure.</p>
+          </div>
+        </div>
+        <div class="grat-grid">
+          <div class="field">
+            <label for="serviceDate">Continuous service date
+              <span class="tip" tabindex="0" data-tip="The date your continuous service in India began.">i</span>
+            </label>
+            <input type="date" id="serviceDate" class="plain-input" />
+            <p class="hint">When your continuous service in India began</p>
+          </div>
+          <div class="field">
+            <label for="calcDate">Gratuity calculation date
+              <span class="tip" tabindex="0" data-tip="The date on which gratuity is calculated, for example your last working day.">i</span>
+            </label>
+            <input type="date" id="calcDate" class="plain-input" min="2026-12-01" />
+            <p class="hint">1 December 2026 or later</p>
+          </div>
+          <div class="field">
+            <label for="monthlyWage">Monthly wage <span class="tag">CALCULATED</span></label>
+            <div class="input-wrap readonly"><span class="prefix">₹</span><input id="monthlyWage" readonly tabindex="-1" /></div>
+            <p class="hint">Monthly basic salary</p>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-primary" id="calcGratuityBtn">Calculate gratuity</button>
+          <button type="button" class="btn btn-outline" id="clearGratuityBtn">Clear</button>
+        </div>
+        <p class="status-text" id="gratuityStatus"></p>
+        <div class="grat-result" id="gratResult" hidden>
+          <div class="grat-stat"><span class="kpi-label">Eligibility date</span><span class="grat-value" id="eligDate">—</span></div>
+          <div class="grat-stat"><span class="kpi-label">Tenure</span><span class="grat-value" id="tenure">—</span><span class="kpi-sub" id="tenureSub"></span></div>
+          <div class="grat-stat primary"><span class="kpi-label">Estimated gratuity</span><span class="grat-value" id="gratAmount">—</span></div>
+        </div>
+        <div class="notice">
+          <span class="i-icon solid">i</span>
+          <div class="notice-list">
+            <p><strong>Eligibility:</strong> Continuous service date + 4 years + 240 days.</p>
+            <p><strong>Tenure:</strong> Completed years, plus one year when the remaining completed months are at least 6.</p>
+            <p><strong>Formula:</strong> 15 ÷ 26 × tenure × monthly basic salary.</p>
+            <p><strong>Illustration only:</strong> This estimate is not a final gratuity payout statement.</p>
+          </div>
+        </div>
+      </div>
+
+      <details class="card assumptions">
+        <summary><span class="eyebrow">ASSUMPTIONS</span><span class="assume-title">How this calculator works</span></summary>
+        <div class="notice-list assume-body">
+          <p><strong>Tax year 2026-27</strong> (1 April 2026 to 31 March 2027), the first year under the Income-tax Act, 2025. Slabs, rebates and the standard deduction are unchanged from FY 2025-26. Old section numbers are shown because payslips still use them: 80C is now section 123, 80CCD is section 124, 80D is section 126 and the 87A rebate is section 156.</p>
+          <p><strong>Who:</strong> A resident individual under 60 with salary income only.</p>
+          <p><strong>New regime:</strong> Slabs 0–4 L nil, 4–8 L 5%, 8–12 L 10%, 12–16 L 15%, 16–20 L 20%, 20–24 L 25%, above 24 L 30%. Standard deduction ₹75,000. Rebate up to ₹60,000 when taxable income is within ₹12,00,000, with marginal relief just above it. Employer NPS is deductible up to 14% of Basic.</p>
+          <p><strong>Old regime:</strong> Slabs 0–2.5 L nil, 2.5–5 L 5%, 5–10 L 20%, above 10 L 30%. Standard deduction ₹50,000. Rebate up to ₹12,500 when taxable income is within ₹5,00,000, with no marginal relief. Employee PF is counted under section 123 (earlier 80C), up to ₹1,50,000. Employer NPS is deductible up to 10% of Basic. HRA exemption, LTA exemption, other investments, health insurance and loan interest are not included.</p>
+          <p><strong>Surcharge and cess:</strong> Surcharge from ₹50 lakh (new regime capped at 25%), with marginal relief. 4% health and education cess. Tax is rounded to the nearest ₹10.</p>
+          <p><strong>Employer contributions:</strong> Employer PF and NPS above ₹7,50,000 a year in total are taxed as a perquisite.</p>
+          <p><strong>Professional tax:</strong> ₹200 a month (₹2,400 a year) is deducted from taxable income under both the new and the old regime, when monthly cash pay is above ₹15,000. It is also deducted from in-hand pay.</p>
+          <p><strong>Take-home:</strong> Employee PF at 12% of Basic, professional tax and income tax are deducted. LTA stays in monthly pay. The regime you select changes the tax, not the salary split.</p>
+          <p><strong>Employer PF:</strong> When “Employer PF included” is on, 12% of Basic is one component of Total Base Pay. When it is off, the employer pays that PF over and above Total Base Pay. That amount is not part of Total CTC. Your own 12% PF contribution is deducted from in-hand either way, and it still counts toward the old-regime 80C limit.</p>
+          <p><strong>Total CTC</strong> is Annual Total Base Pay plus Variable pay.</p>
+          <p><strong>Variable pay:</strong> Paid on top of Total Base Pay, not out of it. It is a percentage of Total Base Pay, or a fixed annual amount. Total Base Pay, Basic, HRA and PF do not change. It is taxed as salary, including 4% cess, and it does not change PF or gratuity. Variable pay is spread across 12 months. Income tax, including cess, is worked out on the slabs for the full year of fixed pay plus Variable pay, and that tax is spread into the monthly in-hand figure.</p>
+          <p><strong>Illustration only.</strong> This is not payroll advice or a tax filing. Actual payroll figures may differ.</p>
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 Ashish Kumar Sankhua</p>
+  </footer>
+  <div class="print-mark" aria-hidden="true"><span>Ashish Sankhua</span><span>Ashish Sankhua</span><span>Ashish Sankhua</span></div>
+
+  <script src="app.js?v=63"></script>
+</body>
+</html>
